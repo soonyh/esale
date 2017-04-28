@@ -1,0 +1,145 @@
+<form id="container-selectProduct">
+  <div class="weui-loadmore weui-loadmore_line">
+    <span class="weui-loadmore__tips">暂无数据</span>
+  </div>
+</form>
+<style>
+  #container-selectProduct .page-part:first-child {
+    margin-top: 0;
+  }
+</style>
+<script type="text/html" id="art-selectProduct">
+  {{include 'art-common' mobile}} {{include 'art-common' boardband}} {{include 'art-common' tianYiGaoQin}}
+</script>
+<script type="text/html" id="art-common">
+  <div class="page-part" data-role="{{type}}" data-max="{{max}}" data-min="{{min}}">
+    <div class="form-group">
+      <div class="icon-label">{{#title | transform}}
+      </div>
+      <div class="wrapper">
+        <div class="input-label" data-role="title">{{title}}</div>
+        <div class="other">已有</div>
+      </div>
+    </div>
+    <div class="sub-area" style="margin:1px 0 1px 0;">
+      {{if list.length >0}} {{each list}}
+      <label class="form-group">
+        <div class="icon-label">
+        </div>
+        <div class="wrapper">
+          <div class="input-label">{{$value.label}}</div>
+          <div class="other">
+            <input type="checkbox" name="old" value="{{$value.value}}" onchange="SelectProduct.limit(this)">
+            <i class="iconfont icon-square_check"></i>
+          </div>
+        </div>
+      </label>
+      {{/each}} {{else}}
+      <div class="form-group">
+        <div class="icon-label">
+        </div>
+        <div class="wrapper">
+          <div class="input-label color-grey">无号码</div>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+    <div class="form-group">
+      <div class="icon-label">
+      </div>
+      <div class="wrapper">
+        <div class="input-label">{{title}}</div>
+        <div class="other">
+          新装
+        </div>
+      </div>
+    </div>
+    <div class="form-group" style="padding:0.25rem 0.5rem 0 2.2rem;">
+      <div class="spinbox" id="spinner4">
+        <button type="button" class="spinbox-up weui-btn weui-btn_default weui-btn_mini"> + </button>
+        <input class="spinbox-input" readonly="" type="text" name="new">
+        <button type="button" class="spinbox-down weui-btn weui-btn_default weui-btn_mini"> - </button>
+      </div>
+    </div>
+  </div>
+</script>
+<script>
+  var SelectProduct = function() {
+    //依赖于预设的tile
+    template.helper('transform', function(value) {
+      var s = '';
+      switch (value) {
+        case '移动产品':
+          s = '<i class="iconfont icon-zhongduanxianxing"></i>';
+          break;
+        case '宽带产品':
+          s = '<i class="iconfont icon-kuandai"></i>';
+          break;
+        case '天翼高清':
+          s = '<i class="iconfont icon-tianyigaoqingxianxing1"></i>';
+          break;
+        default:
+          s = '<i class="iconfont icon-zhongduanxianxing"></i>';
+      }
+      return s;
+    });
+    var $pie = $('#container-selectProduct').closest('div[data-role="pie"]');
+    return {
+      init: function() {
+        //本组件的操作依赖上一步选中套餐后存在的'NewFusion.state.roles'上的数据
+        if (!NewFusion.state.roles || NewFusion.state.roles == null) {
+          App.toastr('先选中套餐', 'forbidden');
+          App.removeLoader();
+          return
+        }
+        $.ajax({
+            url: App.urls.newFusion.selectProduct,
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify({}),
+          })
+          .done(function(data) {
+            if (!App.checker(data.health)) {
+              return
+            }
+            //重新组装data
+            var o = {
+              mobile: {
+                title: "移动产品",
+                type: NewFusion.state.roles.mobile.roleCd,
+                max: NewFusion.state.roles.mobile.max,
+                min: NewFusion.state.roles.mobile.min,
+                list: []
+              },
+              boardband: {
+                title: "宽带产品",
+                type: NewFusion.state.roles.boardband.roleCd,
+                max: NewFusion.state.roles.boardband.max,
+                min: NewFusion.state.roles.boardband.min,
+                list: []
+              },
+              tianYiGaoQin: {
+                title: "天翼高清",
+                type: NewFusion.state.roles.tianYiGaoQin.roleCd,
+                max: NewFusion.state.roles.tianYiGaoQin.max,
+                min: NewFusion.state.roles.tianYiGaoQin.min,
+                list: []
+              }
+            };
+            o.mobile.list = data.mobile;
+            o.boardband.list = data.boardband;
+            o.tianYiGaoQin.list = data.tianYiGaoQin;
+            var html = template('art-selectProduct', o);
+            $('#container-selectProduct').html(html);
+            $('.spinbox').spinbox();
+          })
+          .always(function() {
+            App.removeLoader();
+          });
+      },
+      limit: function(el) {
+      }
+    }
+  }()
+  SelectProduct.init();
+</script>

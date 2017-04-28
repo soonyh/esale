@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>单宽新装 - 翼销售</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="../../resources/plugins/jqweiui/weui.css?rev=@@hash">
+  <link rel="stylesheet" href="../../resources/plugins/jqweiui/jquery-weui.css?rev=@@hash">
+  <link rel="stylesheet" href="../../resources/css/custom.css?rev=@@hash">
+  <link rel="shortcut icon" href="../../resources/img/favicon.ico?rev=@@hash">
+</head>
+
+<body>
+  <div class="es-content">
+    <div id="container-subscribe">
+      <div class="weui-loadmore weui-loadmore_line">
+        <span class="weui-loadmore__tips">暂无数据</span>
+      </div>
+    </div>
+    <!-- 所有滚动刷新的容器 都需要包含下面2个DIV-->
+    <div class="weui-loadmore" style="display:none"> <i class="weui-loading"></i> <span class="weui-loadmore__tips">正在加载</span> </div>
+    <div class="noContent" style="display:none;"> <span class="weui-loadmore__tips">没有更多内容</span> </div>
+  </div>
+  <script type='text/javascript' src='../../resources/plugins/jquery.min.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/plugins/jqweiui/jquery-weui.js?rev=@@hash'></script>
+  <!-- build:remove -->
+  <script type='text/javascript' src='../../mock/mock.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../mock/rules.js?rev=@@hash'></script>
+  <!-- endbuild -->
+  <!-- build:js ../../resources/plugins/combined.js -->
+  <script type='text/javascript' src='../../resources/plugins/template.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/plugins/bootstrap.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/plugins/fuelux-spinbox.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/js/app.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/js/config.js?rev=@@hash'></script>
+  <!-- endbuild -->
+  <!-- build:js ../../resources/js/businessLibrary/subscribe.js -->
+  <script type='text/javascript' src='subscribe.js?rev=@@hash'></script>
+  <!-- endbuild -->
+  <script type="text/html" id="art-subscribe">
+    {{if list.length>0}} {{each list}}
+    <div class="sub-area" style="margin-top:1px;">
+      <div class="form-group">
+        <div class="icon-label"><i class="iconfont icon-dingdanxianxing"></i>
+        </div>
+        <div class="wrapper">
+          <div class="input-label">天津电信</div>
+          <div class="other">
+            <a style="margin-top:0.5rem;" class="weui-btn weui-btn_mini weui-btn_primary" href="javascript:;" onclick="Subscribe.hold(this)" data-loading-text="预占...">预占</a>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="icon-label"></div>
+        <div class="wrapper">
+          <div class="input-label">
+            <p>{{$value.orderTime}}</p><small>下发时间</small>
+          </div>
+          <div class="other">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="icon-label"></div>
+        <div class="wrapper">
+          <div class="input-label">
+            <p>{{$value.orderNumber}}</p><small>一站式流水号</small>
+          </div>
+          <div class="other">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="icon-label"></div>
+        <div class="wrapper">
+          <div class="input-label">
+            <p>{{$value.address}}</p><small>装机地址</small>
+          </div>
+          <div class="other">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="icon-label"></div>
+        <div class="wrapper">
+          <div class="input-label">
+            <p>{{$value.remark}}</p><small>审批备注</small>
+          </div>
+          <div class="other">
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}} {{/if}}
+  </script>
+  <script>
+    $(function() {
+      App.init();
+      Subscribe.init();
+    });
+  </script>
+</body>
+
+</html>

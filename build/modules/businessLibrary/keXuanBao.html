@@ -1,0 +1,43 @@
+<div id="container-keXuanBao"><div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">暂无数据</span></div></div><script type="text/html" id="art-keXuanBao"><label class="form-group">
+    <div class="icon-label"><i class="iconfont icon-liebiao"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control" placeholder="可选包/请输入查询条件" type="text" name="keyword" onkeyup="KeXuanBao.filterInResult(this)" />
+      <div class="other"><i class="iconfont icon-shaixuan color-orange" style="font-size:1.2rem;"></i>
+      </div>
+    </div>
+  </label>
+  <div class="sub-area" id="keXuanBao-options" style="margin-top:1px;">
+    {{if list.length > 0}} {{ each list }}
+    <label>
+    {{if $value.configOptions.length > 0}}
+      <div class="form-group" data-id="{{$value.id}}" data-config-options="{{$value.configOptions | toString}}">
+        {{else}}
+        <div class="form-group" data-id="{{$value.id}}">
+          {{/if}}
+          <div class="icon-label"><i class="iconfont icon-shoucangxuanzhong"></i>
+          </div>
+          <div class="wrapper">
+            <div class="input-label">{{$value.title}}</div>
+            <div class="other">
+              <input type="checkbox" name="bao" value="{{$value.id}}" onChange="KeXuanBao.toggleSelect(this,$(this).val())">
+              <i class="iconfont icon-square_check"></i>
+            </div>
+          </div>
+        </div>
+    </label>
+    {{/each}} {{else}} 无可选包 {{/if}}
+    </div>
+    <div class="form-group">
+      <div class="icon-label"><i class="iconfont icon-liebiao"></i>
+      </div>
+      <div class="wrapper">
+        <div class="input-label">已选择</div>
+        <div class="other">
+        </div>
+      </div>
+    </div>
+    <div class="sub-area" id="container-keXuanBao-selected" style="margin-top:1px;">
+
+    </div>
+  </div></script><script>var KeXuanBao=function(){template.helper("toString",function(o){return JSON.stringify(o)});var o=0,n=function(n,t){return function(){var e=+new Date;e-o>t&&n.apply(this,arguments),o=e}},t=function(o){var n=$(o).val(),t=new RegExp(n.trim(),"im");$("#keXuanBao-options").find(".input-label").each(function(){var o=$(this).closest(".form-group");t.test($(this).html())?o.show():o.hide()})};return{init:function(){App.template({url:App.urls.businessLibrary.keXuanBao,art:"art-keXuanBao",container:"container-keXuanBao",data:{},cb:function(){}})},toggleSelect:function(o,n){var t=$(o).is(":checked");if(t){var e=$(o).closest(".form-group").clone();e.find(".other").html('<i class="iconfont icon-close" onClick="KeXuanBao.deleteIt(this)"></i>'),void 0!=e.data("configOptions")?e.find(".icon-label").html('<div class="circle-button pointer" onClick="KeXuanBao.showModal(this)">参</div>'):e.find(".icon-label").html(""),$("#container-keXuanBao-selected").append(e)}else $("#container-keXuanBao-selected").find('.form-group[data-id="'+n+'"]').remove()},deleteIt:function(o){var n=$(o).closest(".form-group");$("#keXuanBao-options").find('.form-group[data-id="'+n.data("id")+'"]').find('input[type="checkbox"]').prop("checked",!1),n.remove()},showModal:function(o){App.modal({url:App.modules.businessLibrary.keXuanBaoConfig,data:{target:'#container-keXuanBao-selected .form-group[data-id="'+$(o).closest(".form-group").attr("data-id")+'"]',configOptions:$(o).closest(".form-group").data("configOptions")}})},filterInResult:n(t,200)}}();KeXuanBao.init()</script>

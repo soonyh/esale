@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>单宽新装 - 翼销售</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="../../resources/plugins/jqweiui/weui.css?rev=@@hash">
+  <link rel="stylesheet" href="../../resources/plugins/jqweiui/jquery-weui.css?rev=@@hash">
+  <link rel="stylesheet" href="../../resources/css/custom.css?rev=@@hash">
+  <link rel="shortcut icon" href="../../resources/img/favicon.ico?rev=@@hash">
+</head>
+
+<body>
+  <!-- <div style="position:absolute; top:0; left:0; right:0; height:3rem; z-index:2;"></div> -->
+  <ul class="es-navbar es-tabs primary" id="nav">
+    <li class="active">
+      <a href="javascript:;" data-target="#tab1">
+        <div class="tab-icon"><i class="iconfont icon-taocan3"></i>
+        </div>
+        <div class="tab-label">宽带信息</div>
+      </a>
+    </li>
+    <li>
+      <a href="javascript:;" data-target="#tab2">
+        <div class="tab-icon"><i class="iconfont icon-fuqia"></i>
+        </div>
+        <div class="tab-label">可选包</div>
+      </a>
+    </li>
+    <li>
+      <a href="javascript:;" data-target="#tab3">
+        <div class="tab-icon"><i class="iconfont icon-cuxiao"></i>
+        </div>
+        <div class="tab-label">订单信息</div>
+      </a>
+    </li>
+    <li>
+      <a href="javascript:;" data-target="#tab4">
+        <div class="tab-icon"><i class="iconfont icon-qita"></i>
+        </div>
+        <div class="tab-label">收银台</div>
+      </a>
+    </li>
+  </ul>
+  <div class="es-action-bar">
+  </div>
+  <div class="es-content">
+    <div id="tab1" class="tab-pane active">
+    </div>
+    <div id="tab2" class="tab-pane">
+    </div>
+    <div id="tab3" class="tab-pane">
+    </div>
+    <div id="tab4" class="tab-pane">
+    </div>
+    <div id="tab5" class="tab-pane">
+    </div>
+  </div>
+  <script type='text/javascript' src='../../resources/plugins/jquery.min.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/plugins/jqweiui/jquery-weui.js?rev=@@hash'></script>
+  <!-- build:remove -->
+  <script type='text/javascript' src='../../mock/mock.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../mock/rules.js?rev=@@hash'></script>
+  <!-- endbuild -->
+  <!-- build:js ../../resources/plugins/combined.js -->
+  <script type='text/javascript' src='../../resources/plugins/template.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/plugins/bootstrap.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/plugins/fuelux-spinbox.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/js/app.js?rev=@@hash'></script>
+  <script type='text/javascript' src='../../resources/js/config.js?rev=@@hash'></script>
+  <!-- endbuild -->
+  <!-- build:js ../../resources/js/formalOrder/formalOrder.js -->
+  <script type='text/javascript' src='formalOrder.js?rev=@@hash'></script>
+  <!-- endbuild -->
+  <script>
+    $(function() {
+      App.init();
+      FormalOrder.init();
+    });
+  </script>
+</body>
+
+</html>

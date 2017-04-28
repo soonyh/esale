@@ -1,0 +1,84 @@
+<form id="container-dingDanXinXi"></form><script type="text/html" id="art-dingDanXinXi"><div class="form-group">
+    <div class="icon-label"><i class="iconfont icon-shijianxuanze"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control color-green" placeholder="受理时间" type="text" name="orderTime" />
+      <div class="other"><i class="iconfont icon-xiangyou1"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" id="sdfwer" style="display:none;">
+    <div class="icon-label"><i class="iconfont icon-time"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control" placeholder="受理时段" type="text" name="timeRange" data-toggle="select" />
+      <div class="other"><i class="iconfont icon-xiangyou1"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="icon-label"><i class="iconfont icon-wodexianxing"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control color-green" placeholder="发展人姓名" type="text" name="faZhanRenName" data-type="chinese" data-help="发展人姓名" required/>
+      <div class="other">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="icon-label"><i class="iconfont icon-wodexianxing"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control color-green" placeholder="发展人工号" type="text" name="faZhanRenId" data-type="+n" data-help="发展人工号" required/>
+      <div class="other">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control" data-toggle="select" name="channel" placeholder="业务拓展部" type="text" data-options="{{channels | toString}}" />
+      <div class="other"><i class="iconfont icon-xiangyou1"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="icon-label"><i class="iconfont icon-liebiao"></i>
+    </div>
+    <div class="wrapper">
+      <div class="input-label">添加经办人</div>
+      <div class="other color-orange" id="matchRate">
+      </div>
+    </div>
+  </div>
+  <div class="sub-area border-bottom" style="margin-top:1px;">
+    <div class="operator-box">
+      <div class="card-camera">
+        <div class="card-box" id="id-kksiwes">
+          <i class="iconfont"></i>
+        </div>
+        <p>身份证照片
+          <a onclick="DingDanXinXi.getGenerationInfos()" href="javascript:;">模拟</a> <span>  <i class="iconfont icon-chuanma color-orange pointer" onclick="DingDanXinXi.callGenerationRec('DingDanXinXi.getGenerationInfos','3')"></i>
+            <i class="iconfont icon-lanya pointer" style="color:#34cdef;" onclick="DingDanXinXi.callGenerationRec('DingDanXinXi.getGenerationInfos','1')"></i>
+            <i class="iconfont icon-nfc pointer" style="color:#77dc55;"  onclick="DingDanXinXi.callGenerationRec('DingDanXinXi.getGenerationInfos','2')"></i></span>
+        </p>
+      </div>
+      <div class="card-camera" onclick="$('#avatar').click()">
+        <div class="card-box" id="face-sdf23sd">
+          <i class="iconfont"></i>
+        </div>
+        <p>正面人脸照</p>
+      </div>
+      <input type="file" accept="image/*;" capture="camera" id="avatar" onchange="DingDanXinXi.camera()" style="position:absolute; top:-9999rem;" name="avatar">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="icon-label"><i class="iconfont icon-bianji"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control" placeholder="备注" type="text" name="remark" />
+      <div class="other">
+      </div>
+    </div>
+  </div></script><script>var DingDanXinXi=function(){var e=function(e){return e.getFullYear()+"-"+(e.getMonth()+1>=10?e.getMonth()+1:"0"+(e.getMonth()+1))+"-"+e.getDate()},a=function(){$("#container-dingDanXinXi").find('input[data-toggle="select"]').each(function(){var e=$(this);0==e.next(".input-label").size()&&e.addClass("transparent").after('<div class="input-label">'+e.attr("placeholder")+"</div")})};return template.helper("toString",function(e){return JSON.stringify(e)}),{init:function(){App.template({url:App.urls.smartHome.dingDanXinXi,art:"art-dingDanXinXi",container:"container-dingDanXinXi",data:{},cb:function(){a(),$("#container-dingDanXinXi").find('input[name="orderTime"]').calendar({minDate:e(new Date),onOpen:function(){$("body").append('<div id="picker-mask" class="weui-mask weui-mask--visible" style="z-index:900;"></div>')},onClose:function(a){$("#picker-mask").remove(),$.ajax({url:App.urls.smartHome.queryTimeRange,type:"post",dataType:"json",data:{param:e(new Date(a.value[0]))}}).done(function(e){if(App.checker(e.health)){$("#sdfwer").show().find("input").attr({"data-options":JSON.stringify(e.data)});var a=$("#sdfwer").find('input[name="timeRange"]');a.val("").next(".input-label").removeClass("color-green").html(a.prop("placeholder"))}}).fail(function(){App.toastr("受理时段，初始化失败","forbidden")})}})}})},matchFace:function(){if(0!=$("#id-kksiwes").children("img").size()&&0!=$("#face-sdf23sd").children("img").size()){App.loader();var e={idCard:$("#id-kksiwes").children("img").attr("src"),avatar:$("#face-sdf23sd").children("img").attr("src")};$.ajax({url:App.urls.smartHome.matchFace,type:"post",dataType:"json",data:JSON.stringify(e)}).done(function(e){App.checker(e.health)&&$("#matchRate").html(e.matchRate)}).always(function(){App.removeLoader()})}},camera:function(){var e=$("<img/>"),a=new FileReader,n=/^(?:image\/bmp|image\/gif|image\/jpeg|image\/png)$/i;if(a.onload=function(a){e.prop("src",a.target.result),App.loader()},0!==document.getElementById("avatar").files.length){var t=document.getElementById("avatar").files[0];if(!n.test(t.type))return void App.toastr("只支持图片!","forbidden");a.readAsDataURL(t),e[0].onload=function(){var a=e[0].width,n=e[0].height,t=document.createElement("canvas"),i=t.getContext("2d");t.width=a,t.height=n;var r=0,o=0,d=a,c=n,s=0,l=0,p=a,m=n;i.drawImage(e[0],r,o,d,c,s,l,p,m);var g=t.toDataURL("image/jpeg",.6);$("#face-sdf23sd").html($("<img />").prop({src:g,name:"avatar"}).css({width:"100%"})).css({lineHeight:0}),DingDanXinXi.matchFace(),App.removeLoader()}}},callGenerationRec:function(e,a){var n=new Array(1);n[0]=e,n[1]=a,MyPlugin.getGenerationInfos(n,function(e){},function(e){})},getGenerationInfos:function(e,a,n,t){$("#id-kksiwes").html($("<img />").prop({src:$("#face-sdf23sd").children("img").attr("src"),name:"idcard"}).css({width:"100%"})).css({lineHeight:0}),DingDanXinXi.matchFace()}}}();DingDanXinXi.init()</script>

@@ -1,0 +1,43 @@
+<div id="container-keXuanBao"><div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">暂无数据</span></div></div><script type="text/html" id="art-keXuanBao"><label class="form-group">
+    <div class="icon-label"><i class="iconfont icon-liebiao"></i>
+    </div>
+    <div class="wrapper">
+      <input class="form-control" placeholder="可选包/请输入查询条件" type="text" name="keyword" onkeyup="KeXuanBao.filterInResult(this)" />
+      <div class="other"><i class="iconfont icon-shaixuan color-orange" style="font-size:1.2rem;"></i>
+      </div>
+    </div>
+  </label>
+  <div class="sub-area" id="keXuanBao-options" style="margin-top:1px;">
+    {{if list.length > 0}} {{ each list }}
+    <label>
+      {{if $value.configOptions.length > 0}}
+      <div class="form-group" data-id="{{$value.id}}" data-config-options="{{$value.configOptions | toString}}">
+        {{else}}
+        <div class="form-group" data-id="{{$value.id}}">
+          {{/if}}
+          <div class="icon-label"><i class="iconfont icon-shoucangxuanzhong"></i>
+          </div>
+          <div class="wrapper">
+            <div class="input-label">{{$value.title}}</div>
+            <div class="other">
+              <input type="checkbox" name="bao" value="{{$value.id}}" onChange="KeXuanBao.toggleSelect(this,$(this).val())">
+              <i class="iconfont icon-square_check"></i>
+            </div>
+          </div>
+        </div>
+    </label>
+    {{/each}} {{else}} 无可选包 {{/if}}
+    </div>
+    <div class="form-group">
+      <div class="icon-label"><i class="iconfont icon-liebiao"></i>
+      </div>
+      <div class="wrapper">
+        <div class="input-label">已选择</div>
+        <div class="other">
+        </div>
+      </div>
+    </div>
+    <div class="sub-area" id="container-keXuanBao-selected" style="margin-top:1px;">
+
+    </div>
+  </div></script><script>var KeXuanBao=function(){var e=$("#container-keXuanBao");e.closest('[data-role="pie"]');template.helper("toString",function(e){return JSON.stringify(e)});var o=0,a=function(e,a){return function(){var t=+new Date;t-o>a&&e.apply(this,arguments),o=t}},t=function(e){var o=$(e).val(),a=new RegExp(o.trim(),"im");$("#keXuanBao-options").find(".input-label").each(function(){var e=$(this).closest(".form-group");a.test($(this).html())?e.show():e.hide()})};return{init:function(){App.template({url:App.urls.networkAdd.keXuanBao,art:"art-keXuanBao",container:"container-keXuanBao",data:{},cb:function(){},fail:function(){$(".tab-pane.active").html('<div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips"><a href="javascript:;" onclick="NetworkAdd.refresh(3)">请求失败，点击刷新</a></span></div>')}})},toggleSelect:function(e,o){var a=$(e).is(":checked");if(a){var t=$(e).closest(".form-group").clone();t.find(".other").html('<i class="iconfont icon-close" onClick="KeXuanBao.deleteIt(this)"></i>'),void 0!=t.data("configOptions")?t.find(".icon-label").html('<div class="circle-button pointer" onClick="KeXuanBao.showModal(this)">参</div>'):t.find(".icon-label").html(""),$("#container-keXuanBao-selected").append(t)}else $("#container-keXuanBao-selected").find('.form-group[data-id="'+o+'"]').remove()},deleteIt:function(e){var o=$(e).closest(".form-group");$("#keXuanBao-options").find('.form-group[data-id="'+o.data("id")+'"]').find('input[type="checkbox"]').prop("checked",!1),o.remove()},showModal:function(e){App.modal({url:App.modules.networkAdd.keXuanBaoConfig,data:{target:'#container-keXuanBao-selected .form-group[data-id="'+$(e).closest(".form-group").attr("data-id")+'"]',configOptions:$(e).closest(".form-group").data("configOptions")}})},filterInResult:a(t,200)}}();KeXuanBao.init()</script>

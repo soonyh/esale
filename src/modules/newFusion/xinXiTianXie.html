@@ -1,0 +1,333 @@
+<div id="container-kuanDaiXinXi">
+</div>
+<script type="text/html" id="art-kuanDaiXinXi">
+  <form>
+    <label class="form-group">
+      <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+      </div>
+      <div class="wrapper">
+        <input class="form-control" data-toggle="select" placeholder="选择付费方式" type="text" name="payType" data-options="{{payTypes | toString}}" />
+        <div class="other"><i class="iconfont icon-xiangyou1"></i>
+        </div>
+      </div>
+    </label>
+    <div style="margin-top:1px;">
+      <!-- Nav tabs -->
+      <ul class="es-tabs line">
+        <li role="presentation" class="active">
+          <a href="#cdma" data-toggle="tab">CDMA</a>
+        </li>
+        <li role="presentation">
+          <a href="#adsl" data-toggle="tab">ADSL</a>
+        </li>
+        <li role="presentation">
+          <a href="#tianYiGaoQin" data-toggle="tab">天翼高清</a>
+        </li>
+        <li role="presentation">
+          <a href="#keXuanBao" data-toggle="tab">可选包</a>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div style="padding-top:1px;">
+        <div class="tab-pane active" id="cdma">
+          <div class="page-part">
+            <h3 class="color-green section-title">新装1</h3>
+            <label class="form-group">
+              <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select" placeholder="选择促销产品" type="text" name="cuXiaoProduct" data-options="{{cuXiaoProducts  | toString}}" />
+                <div class="other"><i class="iconfont icon-xiangyou1"></i>
+                </div>
+              </div>
+            </label>
+            <div class="form-group" onclick="KuanDaiXinXi.queryPhoneNumber()">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select-popup" placeholder="请选择捆绑号码" type="text" readonly="" name="phoneNumber" id="cdma-phoneNumber1" />
+                <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="+n" data-help="终端号码错误" placeholder="请输入终端串码" type="text" name="chuanma" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="+n" data-help="终端号码错误" placeholder="请输入UIM卡号" type="text" name="uim" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="page-part">
+            <h3 class="color-green section-title">新装1</h3>
+            <label class="form-group">
+              <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select" placeholder="选择促销产品" type="text" name="cuXiaoProduct" data-options="{{cuXiaoProducts  | toString}}" />
+                <div class="other"><i class="iconfont icon-xiangyou1"></i>
+                </div>
+              </div>
+            </label>
+            <div class="form-group" onclick="KuanDaiXinXi.queryPhoneNumber()">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select-popup" placeholder="请选择捆绑号码" type="text" readonly="" name="phoneNumber" id="cdma-phoneNumber1" />
+                <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="+n" data-help="终端号码错误" placeholder="请输入终端串码" type="text" name="chuanma" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="+n" data-help="终端号码错误" placeholder="请输入UIM卡号" type="text" name="uim" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="adsl">
+          <div class="page-part">
+            <h3 class="color-green section-title">新装1</h3>
+            <label class="form-group">
+              <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select" placeholder="选择带宽" type="text" name="speedType" data-options="{{speedTypes  | toString}}" />
+                <div class="other"><i class="iconfont icon-xiangyou1"></i>
+                </div>
+              </div>
+            </label>
+            <div class="form-group" onclick="KuanDaiXinXi.queryAddress()">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select-popup" placeholder="请输入装机地址" type="text" name="address" id="cdma-address" />
+                <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select" placeholder="选择光纤类型" type="text" name="lineType" data-options="{{lineTypes | toString}}" />
+                <div class="other"><i class="iconfont icon-xiangyou1"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select" placeholder="选择光猫类型" type="text" name="modemType" data-options="{{modemTypes | toString}}" />
+                <div class="other"><i class="iconfont icon-xiangyou1"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="+n" data-help="设备串码错误" placeholder="请输入ONU设备串码" type="text" name="onu" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select-popup" placeholder="请选择捆绑号码" type="text" readonly="" name="phoneNumber" id="phoneNumber1-sdfw2ds" />
+                <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange" onclick="KuanDaiXinXi.queryPhoneNumber()"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="chinese" placeholder="请输入市场维度" type="text" name="shiChangWeiDu" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-jinggaoxianxing"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select" placeholder="是否即装即销" type="text" readonly="" name="activeType" data-options="{{activeTypes | toString}}" />
+                <div class="other"><i class="iconfont icon-xiangyou1"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tianYiGaoQin">
+          <div class="page-part">
+            <h3 class="color-green section-title">新装1</h3>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" data-type="+n" placeholder="请输入天翼高清接入号" data-type="+n" data-help="接入号错误" type="text" name="tianYiGaoQingHao" required/>
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" placeholder="密码" data-type="+n" data-help="格式错误" type="password" name="password" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control color-green" placeholder="请输入天翼高清设备串码" data-type="+n" data-help="串码错误" type="text" name="tianYiGaoQingChuanMa" />
+                <div class="other">
+                </div>
+              </div>
+            </div>
+            <div class="form-group" onclick="KuanDaiXinXi.queryPhoneNumber()">
+              <div class="icon-label"><i class="iconfont icon-bianji"></i>
+              </div>
+              <div class="wrapper">
+                <input class="form-control" data-toggle="select-popup" placeholder="请选择捆绑号码" type="text" readonly="" name="phoneNumber"/>
+                <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="keXuanBao">
+          <div class="form-group" onclick="KuanDaiXinXi.queryCdmaKeXuanBao()">
+            <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+            </div>
+            <div class="wrapper">
+              <input class="form-control" data-toggle="select-popup" placeholder="选择CDMA可选包" type="text" name="cdmaKeXuanBao" />
+              <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange"></i>
+              </div>
+            </div>
+          </div>
+          <div class="sub-area" id="" style="margin-top:1px;">
+            <label class="form-group" data-id="100120">
+              <div class="icon-label"></div>
+              <div class="wrapper">
+                <div class="input-label">冲371送300 近相对集间不</div>
+                <div class="other"><i class="iconfont icon-close" onclick="KeXuanBao.deleteIt(this)"></i>
+                </div>
+              </div>
+            </label>
+            <label class="form-group" data-id="100121">
+              <div class="icon-label"></div>
+              <div class="wrapper">
+                <div class="input-label">冲157送300 入快严存度间</div>
+                <div class="other"><i class="iconfont icon-close" onclick="KeXuanBao.deleteIt(this)"></i>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="form-group" onclick="KuanDaiXinXi.queryAdslKeXuanBao()">
+            <div class="icon-label"><i class="iconfont icon-cuxiao"></i>
+            </div>
+            <div class="wrapper">
+              <input class="form-control" data-toggle="select-popup" placeholder="选择ADSL可选包" type="text" name="adslKeXuanBao" />
+              <div class="other"><i class="iconfont icon-saomiaoxianxing color-orange"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</script>
+<style>
+  #container-kuanDaiXinXi .page-part {
+    margin-top: 0;
+  }
+  #container-kuanDaiXinXi .section-title {
+    line-height: 2.5rem;
+    padding-left: 10px;
+  }
+</style>
+<script>
+  var KuanDaiXinXi = function() {
+    var initSelect = function() {
+      $('#container-kuanDaiXinXi').find('input[data-toggle="select"],input[data-toggle="select-popup"]').each(function() {
+        var $input = $(this);
+        $input.addClass('transparent').after('<div class="input-label">' + $input.attr('placeholder') + '</div')
+      })
+    }
+    template.helper('toString', function(value) {
+      return JSON.stringify(value);
+    });
+    return {
+      init: function() {
+        //开始解析模板
+        App.template({
+          url: App.urls.smartHome.kuanDaiXinXi,
+          art: 'art-kuanDaiXinXi',
+          container: 'container-kuanDaiXinXi',
+          data: {},
+          cb: function() {
+            //初始化每个data-toggle='select'组件，生成对应的div.input-label
+            initSelect();
+          }
+        })
+      },
+      queryAddress: function() {
+        App.modal({
+          url: App.modules.common.queryAddress,
+          data: '#cdma-address'
+        })
+      },
+      queryPhoneNumber: function() {
+        App.modal({
+          url: App.modules.common.queryPhoneNumber,
+          data: '#phoneNumber1-sdfw2ds'
+        })
+      },
+      queryCdmaKeXuanBao: function() {
+        App.modal({
+          url: App.modules.common.queryCdmaKeXuanBao,
+          data: '#phoneNumber2-sdfw2ds'
+        })
+      },
+      queryAdslKeXuanBao: function() {
+        App.modal({
+          url: App.modules.common.queryAdslKeXuanBao,
+          data: '#phoneNumber2-sdfw2ds'
+        })
+      }
+    }
+  }()
+  KuanDaiXinXi.init();
+</script>

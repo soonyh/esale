@@ -1,0 +1,40 @@
+<div class="modal">
+  <div class="modal-header"><i class="iconfont icon-huizhi"></i> 回执 - 业务受理协议
+  </div>
+
+  <div class="modal-footer">
+    <button href="javascript:;" class="weui-btn weui-btn_plain-primary" id="btn-prev">手写签名</button>
+    <button class="weui-btn weui-btn_primary" id="btn-save" data-loading-text="保存回执..." onclick="Receipt.save()">保存回执</button>
+  </div>
+  <div class="modal-body">
+    <div id="container-receipt">
+      
+    </div>
+  </div>
+</div>
+<script>
+  var Receipt = function() {
+    return {
+      init: function() {},
+      save: function() {
+        var $btnSave = $('#btn-save').button('loading');
+        $.ajax({
+            url: App.urls.networkAdd.saveReceipt,
+            type: 'post',
+            dataType: 'json',
+            data: {},
+          })
+          .done(function() {
+            $btnSave.button('reset');
+            $.confirm("回执保存成功，前往收银台", function() {
+              $('#btn-save').closest('[data-role="pie"]').find('.modal-header .icon-close').click();
+            }, function() {
+              //点击取消后的回调函数
+            });
+          })
+
+      }
+    }
+  }()
+  Receipt.init()
+</script>

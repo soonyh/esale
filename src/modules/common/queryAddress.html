@@ -1,0 +1,190 @@
+<!--
+   #查询手机号
+   #必须 传入回填dom元素的selector，告诉组件选中号码后回填到哪里
+   #必须 传入速率
+   #比如：{speedType:$('input[name="speedType"]').val(),selector:'#container-kuanDaiXinXi input[name="address"]'}
+-->
+<div class="modal">
+  <div class="modal-header"> 查询装机地址
+  </div>
+  <div class="modal-search-bar">
+    <div class="weui-search-bar" id="searchBar">
+      <form class="weui-search-bar__form" id="form-queryAddress">
+        <div class="weui-search-bar__box">
+          <i class="weui-icon-search"></i>
+          <input type="search" class="weui-search-bar__input" name="keyword" placeholder="街道" onkeydown="if(event.keyCode==13){return false;}">
+          <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+        </div>
+        <label class="weui-search-bar__label" id="searchText">
+          <i class="weui-icon-search"></i>
+          <span>输入街道</span>
+        </label>
+      </form>
+      <a href="javascript:" class="weui-search-bar__cancel-btn" onclick="QueryAddress.search()">确定</a>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div id="container-queryAddress">
+      <div class="weui-loadmore weui-loadmore_line">
+        <span class="weui-loadmore__tips" style="background-color:#EFEFF4">暂无数据</span>
+      </div>
+    </div>
+    <!-- 所有滚动刷新的容器 都需要包含下面2个DIV-->
+    <div class="weui-loadmore" style="display:none"> <i class="weui-loading"></i> <span class="weui-loadmore__tips">正在加载</span> </div>
+    <div class="noContent" style="display:none;"> <span class="weui-loadmore__tips">没有更多内容</span> </div>
+  </div>
+</div>
+<style>
+  #container-queryAddress .form-group {
+    border-top: none;
+    margin-top: 0;
+  }
+  #container-queryAddress .form-group:nth-child(odd) {
+    background-color: transparent;
+  }
+  .padding-z:before{left:0;}
+</style>
+<script type="text/html" id="art-queryAddress">
+  {{ if list.length > 0}} {{ each list}}
+  <div class="form-group" data-value="{{$value.value}}" onclick="QueryAddress.confirmIt(this)">
+    <div class="wrapper" style="left:10px;">
+      <div class="input-label">{{$value.label}}</div>
+      <div class="other"><i class="iconfont icon-xiangyou1"></i>
+      </div>
+    </div>
+  </div>
+  {{/each}} {{else}}
+  <p class="padding-h" style="color:#bbb;">没有查询到结果</p>
+  {{/if}}
+</script>
+<script>
+  var QueryAddress = function() {
+    //格式化：3-4-4
+    template.helper('formate', function(value) {
+      var a = (value + '').replace(/ /, '');
+      var b = a.substring(0, 3);
+      var c = a.substring(3, 7);
+      var d = a.substring(7, 11);
+      return b + ' ' + c + ' ' + d;
+    });
+    var getData = function() {
+      return App.serialize(decodeURIComponent($('#form-queryAddress').serialize()))
+    };
+    return {
+      init: function() {
+        App.removeLoader();
+        //监听滚动刷新
+        // $('#' + QueryAddress.state.container).closest('.modal-body').infinite(10).on("infinite", function() {
+        //   //如果真正加载 则停止
+        //   if (QueryAddress.state.loading) return;
+        //   //如果当前记录数目等于总的查询结果数，则返回
+        //   if ($('#' + QueryAddress.state.container).find('.form-group').size() >= +QueryAddress.state.total) {
+        //     $('#' + QueryAddress.state.container).siblings('.noContent').show();
+        //     return
+        //   }
+        //   //塞入loading
+        //   $('#' + QueryAddress.state.container).siblings('.weui-loadmore').show();
+        //   QueryAddress.state.loading = true;
+        //   QueryAddress.state.draw = +QueryAddress.state.draw + 1
+        //   App.template({
+        //     url: App.urls.networkAdd.queryAddress,
+        //     art: QueryAddress.state.art,
+        //     container: QueryAddress.state.container,
+        //     data: $.extend(true, {}, {
+        //       keyword: QueryAddress.state.keyword
+        //     }, {
+        //       draw: QueryAddress.state.draw
+        //     }, {
+        //       size: 20
+        //     }),
+        //     type: 'append',
+        //     cb: function() {
+        //       $('#' + QueryAddress.state.container).siblings('.weui-loadmore').hide();
+        //       QueryAddress.state.loading = false;
+        //     }
+        //   })
+        // });
+      },
+      search: function() {
+        var data = getData();
+        //如果不为中文或为空，正停止查询
+        if (!/[\u4e00-\u9fa5]/.test(data.keyword)) {
+          App.toastr('中文或不为空', 'forbidden');
+          return
+        }
+        //把{keyword:''}存到state
+        QueryAddress.state = $.extend(true, {}, QueryAddress.state, data);
+        QueryAddress.state.draw = 1;
+        App.loader();
+        App.template({
+          url: App.urls.common.queryAddress,
+          art: QueryAddress.state.art,
+          container: QueryAddress.state.container,
+          data: $.extend(true, {}, {
+            keyword: QueryAddress.state.keyword
+          }, {
+            draw: QueryAddress.state.draw
+          }, {
+            size: 20
+          }),
+          cb: function(data) {
+            QueryAddress.state.total = data.total;
+            $('#' + QueryAddress.state.container).closest('.modal-body').scrollTop(0);
+          }
+        })
+      },
+      //确认完毕，选中（回填）地址
+      selectIt: function(el) {
+        var selector = $('#' + QueryAddress.state.container).closest('div[data-role="pie"]').data('mailbox').selector;
+        $(selector).val($(el).data('value'));
+        $(selector).next('.input-label').html($(el).find('.input-label').html()).addClass('color-green');
+        $(el).closest('.modal').find('.modal-header .icon-close').click();
+      },
+      //向后台确认地址资源
+      confirmIt: function(el) {
+        App.loader();
+        $.ajax({
+            url: App.urls.common.confirmResource,
+            type: 'post',
+            dataType: 'json',
+            contentType:'application/json; charset=UTF-8',
+            data: JSON.stringify({
+              AddrID: $(el).data('value'),Speedrate:$('#' + QueryAddress.state.container).closest('div[data-role="pie"]').data('mailbox').speedType,Prodspecid:9
+            }),
+          })
+          .done(function(data) {
+            App.removeLoader();
+            if (!App.checker(data.health)) {
+              return
+            }
+            var switcher = function(value){
+              return value == '' ? '无' : value
+            }
+            var str = '<div class="weui-cell padding-z"> <div class="weui-cell__bd text-left">局向名称</div> <div class="weui-cell__ft text-right">'+switcher(data.resultData.Sitename)+'</div> </div> <div class="weui-cell padding-z"> <div class="weui-cell__bd text-left">OLT厂家名称</div> <div class="weui-cell__ft text-right">'+switcher(data.resultData.OLTVENDORNAME)+'</div> </div> <div class="weui-cell padding-z"> <div class="weui-cell__bd text-left">速率</div> <div class="weui-cell__ft text-right">'+switcher(data.resultData.Speedrate)+'</div> </div> <div class="weui-cell padding-z"> <div class="weui-cell__bd text-left">接入方式名称</div> <div class="weui-cell__ft text-right">'+switcher(data.resultData.Modeshowname)+'</div> </div>';
+            $.modal({
+              title: "地址信息",
+              text: str,
+              buttons: [{
+                text: "取消",
+                className: "default"
+              }, {
+                text: "确定",
+                onClick: function() {
+                  QueryAddress.selectIt(el);
+                }
+              }, ]
+            });
+          })
+      },
+      state: {
+        draw: 0, //滚动加载了几次
+        total: 0, //当前查询结果有多少条
+        loading: false,
+        art: 'art-queryAddress',
+        container: 'container-queryAddress'
+      }
+    }
+  }()
+  QueryAddress.init();
+  //# sourceURL=queryAddress.html
+</script>
