@@ -63,7 +63,46 @@ _构建后的变化_
 封装思路： 
 
 1. 方便复用和按需加载。
-2. 定义好组件的入参以及它的执行任务。
+2. 定义好组件的入参(类似vue组件开发的接口属性一样)。
 3. 组件包含了与之相关的所有HTML\JS\CSS(与vue的组件思路是一致的)
 
 组件的最终形态是一个`.html`文件，通过`App.includeHtml(options)`异步加载到宿主页面。（详见app.js）
+
+__App.includeHtml({url:'',container:'',data:{}})__     
+
+```
+/**
+    * 说明：
+    * 通过传入的容器id和组件地址，异步加载Html片段。
+    * 自动生成一个带特定属性data-role="pie"的容器，用来包裹该html片段
+    * 可以给该PIE容器传参（对象类型）,$(PIE).data('mailbox',data)
+    * 组件内的脚本可以用.closest()方法追溯到该Pie容器,并提取传入的数据
+    * 另外，会根据PIE容器上的reload属性值，决定多次调用时是否重新请求代码片段
+    *
+    * 调用方法：
+    * App.includeHtml({url:'',container:'',data:{}})
+    *
+    * Options:
+    * @url:       [必选] [string] 组件的url地址
+    * @container: [必选] [string] selector,load的内容所存放的容器比如：'#con' 或者'.content .tab'
+    * @data:      [选填] [Object] 传给组件的数据，以'mainbox'保存在容器上
+    * @type       [string]    [选填] 填充方式'append|prepend|html'，不填默认是'html'
+    * @reload:    [选填] [boolen] 表示是否允许重新拉取，默认值是true
+    * @cb:        [选填] [function] 表示该组件初始化成功时的回调方法
+*/
+        
+```
+
+## 关于app.js 
+
+全局引用，它自定义和二次封装了: modal,toastr,pickup,loading,validator,ajaxSetup等一个应用通常需要具备的能力。
+
+例如App.validator():  
+
+```
+只需在input元素上添加相应的data-type属性，即可完成对元素的相应校验
+
+<input class="form-control color-green" placeholder="宽带接入账号" type="text" name="account" data-type="boardbandAccount" />
+
+
+```
