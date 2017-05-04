@@ -58,6 +58,11 @@ _构建后的变化_
 > 2、压缩了所有的html、js和CSS（包括遗留注释信息和console）  
 > 3、合并了全局引用的插件和封装的全局方法app.js  
 
+
+## 前后端分离必备神器 -mock.js
+
+提供拦截 Ajax 请求，生成随机数据(文本、数字、布尔值、日期、邮箱、链接、图片、颜色等。)，模拟返回的数据。还可以自定义延迟响应时间的能力     
+
 ## 组件封装
 
 封装思路： 
@@ -102,7 +107,7 @@ __App.includeHtml({url:'',container:'',data:{}})__
 ```
 只需在input元素上添加相应的data-type属性，即可完成对元素的相应校验
 
-<input class="form-control color-green" placeholder="宽带接入账号" type="text" name="account" data-type="boardbandAccount" />
-
+<input class="form-control color-green" placeholder="宽带接入账号" 
+type="text" name="account" data-type="boardbandAccount" />
 
 ```
