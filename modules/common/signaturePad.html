@@ -1,0 +1,61 @@
+<!--
+   #手写签名板
+   #必须传入回填dom元素的selector，告诉组件签名保存到哪里
+   #必须传入点击的按钮id，签名保存后切换成“重新签名”
+   #比如：data: {button:'#ksiekl',selector:'#hide992'}
+-->
+<div class="modal" id="pad">
+  <div class="modal-header"><i class="iconfont icon-bianji"></i> 客户签名
+  </div>
+  <div class="modal-footer">
+    <button class="weui-btn weui-btn_plain-primary" onclick="Pad.clear()">清空</button>
+    <button class="weui-btn weui-btn_primary" onclick="Pad.save()">保存</button>
+  </div>
+  <div class="modal-body" style="background:#fff; overflow:hidden;">
+    <canvas id="signature-pad"></canvas>
+  </div>
+</div>
+<script>
+  var Pad = function() {
+    var $canvas,
+      signaturePad,
+      $pie = $('#pad').closest('div[data-role="pie"]'),
+      target = $pie.data('mailbox').selector,
+      button = $pie.data('mailbox').button;
+    return {
+      init: function() {
+        //transitionEnd是jquery-weiui封装的方法
+        $pie.find('.weui-popup__modal').transitionEnd(function() {
+          $.getScript("../../resources/plugins/signature_pad.js", function(data, textStatus, jqxhr) {
+            App.removeLoader();
+            Pad.initCanvas();
+            signaturePad = new SignaturePad($canvas[0]);
+          })
+        })
+      },
+      initCanvas: function() {
+        $canvas = $('#signature-pad');
+        $canvas.attr({
+          width: $canvas.closest('.modal-body').width(),
+          height: $canvas.closest('.modal-body').height()
+        });
+      },
+      clear: function() {
+        signaturePad.clear();
+        $(button).html('手写签名');
+      },
+      save: function() {
+        if (signaturePad.isEmpty()) {
+          App.toastr('还未签名', 'forbidden')
+        } else {
+          $(target).html('<img src="' + signaturePad.toDataURL() + '">');
+          $(button).html('重新签名');
+          $pie.data('close')();
+        }
+      }
+    }
+  }()
+  $(function() {
+    Pad.init()
+  });
+</script>

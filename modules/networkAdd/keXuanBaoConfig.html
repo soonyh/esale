@@ -1,0 +1,124 @@
+<!--
+   所需入参：
+          //target: 表示配置完毕的值需要回填到哪，值类型：selecter
+          //configOptions：表示有几项配置参数
+          //id ：表示该项配置参数的id
+          //options：表示该项配置参数的 可选项
+          //input：表示该项是否允许手动输入配置参数
+    {
+        "target": "#container-keXuanBao-selected .form-group[data-id=\"100120\"]",
+        "configOptions": [{
+            "id": 1015,
+            "options": [{
+                "label": "一交前拉",
+                "value": 4350
+            }, {
+                "label": "内资县场出",
+                "value": 4351
+            }],
+            "input": true
+        }, {
+            "id": 1016,
+            "options": [{
+                "label": "况四史天安持装根果",
+                "value": 4352
+            }, {
+                "label": "工近能计中满其给产但",
+                "value": 4353
+            }],
+            "input": true
+        }]
+    } 
+-->
+<div class="modal" id="container-keXuanBaoConfig">
+  <div class="modal-header"> 参数选择
+  </div>
+  <div class="modal-body">
+    <form id="container-keXuanBaoConfig-slot">
+
+    </form>
+    <div class="es-action-bar"><a href="javascript:;" class="weui-btn weui-btn_plain-primary" onclick="KeXuanBaoConfig.cancel(this)">取消</a><a href="javascript:;" class="weui-btn weui-btn_primary" onclick="KeXuanBaoConfig.submit(this)" data-loading-text="确定...">确定</a>
+    </div>
+  </div>
+</div>
+<script type="text/html" id="art-keXuanBaoConfig-slot">
+  {{each configOptions}}
+  <div class="page-part">
+    {{if $value.options.length == 0}}
+    <div class="form-group">
+      <div class="icon-label"><i class="iconfont icon-haochi1"></i>
+      </div>
+      <div class="wrapper">
+        <input class="form-control color-green" placeholder="输入参数" type="text" name="config" data-id="{{$value.id}}"/>
+        <div class="other">
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <label class="form-group">
+      <div class="icon-label"><i class="iconfont icon-haochi1"></i>
+      </div>
+      <div class="wrapper">
+        <input class="form-control" data-toggle="select" placeholder="选择参数" type="text" name="config" data-options="{{$value.options | toString}}" data-id="{{$value.id}}" />
+        <div class="other"><i class="iconfont icon-xiangyou1"></i>
+        </div>
+      </div>
+    </label>
+    {{/if}}
+  </div>
+  {{/each}}
+</script>
+<script>
+  var KeXuanBaoConfig = function() {
+    return {
+      init: function() {
+        var $pie = $('#container-keXuanBaoConfig').closest('[data-role="pie"]');
+        var mailbox = $pie.data('mailbox');
+        $pie.find('input[name="config1"]').attr('data-options', JSON.stringify(mailbox.options));
+        KeXuanBao.state = mailbox;
+        var html = template('art-keXuanBaoConfig-slot', mailbox);
+        $('#container-keXuanBaoConfig-slot').html(html);
+        App.initSelect();
+        App.removeLoader();
+      },
+      submit: function() {
+        //校验表单
+        var validator = true;
+        $('#container-keXuanBaoConfig').find('input').each(function() {
+          if ($(this).val() == '') {
+            App.toastr($(this).attr('placeholder'), 'forbidden');
+            validator = false;
+            return false;
+          } else {
+            validator = true;
+          }
+        });
+        //校验通过，执行下列任务
+        if (validator) {
+          var arr = [];
+          $('#container-keXuanBaoConfig .page-part').each(function() {
+            var $config = $(this).find('input[name="config"]');
+            var configId = $config.data('id');
+            var o = {};
+            if($(this).find('.input-label').size()>0){
+              o = App.serialize2(this).config;
+            }else{
+               o.value = App.serialize($(this).find(':input').serialize()).config;
+            }
+            o.id =  configId;
+            arr.push(o);            
+          })
+          $(KeXuanBao.state.target).attr('data-config', JSON.stringify(arr));
+          $(KeXuanBao.state.target).find('.circle-button').html('已');
+          $('#container-keXuanBaoConfig').find('.modal-header .icon-close').click();
+        }
+      },
+      cancel: function(el) {
+        $(el).closest('.modal').find('.modal-header .icon-close').click();
+      },
+      state: {}
+    }
+  }()
+  KeXuanBaoConfig.init();
+  //# sourceURL=keXuanBaoConfig.html
+</script>
